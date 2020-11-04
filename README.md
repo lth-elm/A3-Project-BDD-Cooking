@@ -65,21 +65,14 @@ Chaque client peut proposer ses recettes qui pourront être intégrées à la li
 
 **Unicité** / <u>identifiant</u> / *#clé étrangère*
 
-Fournisseur (<u>**codeFournisseur**</u>, nomF, telephoneF)
-
-Produit (<u>**codeProduit**</u>, nomP, catégorie, stock, stockMax, stockMin, unite, dernieUtilisation)
-
-Recette (<u>**codeRecette**</u>, nomR, type, descriptif, veg, prixR, remuneration, *#codeClient*, nombreCommandeSemaine, nombreCommande)
-
-Panier (<u>**codeCommande**</u>, date, prixP, *#codeClient*)
-
-Client (<u>**codeClient**</u>, nomC, prenomC, telephoneC, **usernameC**, mdpC, createur, cook, nombreCommandeCdR)
-
-Fournie (<u>***#codeFournisseur & #codeProduit***</u>)
-
-ConstitutionRecette (<u>***#codeRecette & #codeProduit***</u>, quantiteProduit)
-
-ConstitutionPanier (<u>***#codeCommande & #codeRecette***</u>, quantiteRecette)
+* Fournisseur (<u>**codeFournisseur**</u>, nomF, telephoneF)
+* Produit (<u>**codeProduit**</u>, nomP, catégorie, stock, stockMax, stockMin, unite, dernieUtilisation)
+* Recette (<u>**codeRecette**</u>, nomR, type, descriptif, veg, prixR, remuneration, *#codeClient*, nombreCommandeSemaine, nombreCommande)
+* Panier (<u>**codeCommande**</u>, date, prixP, *#codeClient*)
+* Client (<u>**codeClient**</u>, nomC, prenomC, telephoneC, **usernameC**, mdpC, createur, cook, nombreCommandeCdR)
+* Fournie (<u>***#codeFournisseur & #codeProduit***</u>)
+* ConstitutionRecette (<u>***#codeRecette & #codeProduit***</u>, quantiteProduit)
+* ConstitutionPanier (<u>***#codeCommande & #codeRecette***</u>, quantiteRecette)
 
 # Exécution <a name="exe"></a>
 
