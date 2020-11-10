@@ -1,4 +1,6 @@
-# Sommaire
+# Application Cooking
+
+## Sommaire
 
 1. [Présentation](#intro)
 2. [Notes techniques](#notes)
@@ -6,7 +8,7 @@
     2. [Database](#db)
 3. [Exécution](#exe)
 
-# Présentation startup Cooking <a name="intro"></a>
+## Présentation startup Cooking <a name="intro"></a>
 
 **Partie "classique" du concept :**
 
@@ -18,7 +20,7 @@ Les clients qui commandent les plats sont aussi les cuisiniers qui peuvent propo
 
 Chaque client peut proposer ses recettes qui pourront être intégrées à la liste des recettes proposées par Cooking (**CdR** = créateur de recette).
 
-## Fonctionnalités du PoC
+### Fonctionnalités du PoC
 
 1. Pour les clients :
 * S'identifier ou créer un compte
@@ -49,19 +51,19 @@ Chaque client peut proposer ses recettes qui pourront être intégrées à la li
 * Supprimer une recette
 * Supprimer un cuisinier et toutes ses recettes (mais il reste client)
 
-# Notes techniques <a name="notes"></a>
+## Notes techniques <a name="notes"></a>
 
-## Structure de l'application console <a name="structure"></a>
+### Structure de l'application console <a name="structure"></a>
 
 ![Structure](./Rapport_et_complements/Fonctionnement-Cooking.jpg "Structure")
 
-## Database <a name="db"></a>
+### Database <a name="db"></a>
 
-### Diagramme entité-association
+#### Diagramme entité-association
 
 ![Diagramme EA](./Rapport_et_complements/DiagrammeEA-Cooking.PNG "Diagramme EA")
 
-### Schéma relationnel
+#### Schéma relationnel
 
 **Unicité** / <ins>identifiant</ins> / *#clé étrangère*
 
@@ -74,7 +76,7 @@ Chaque client peut proposer ses recettes qui pourront être intégrées à la li
 * ConstitutionRecette (<ins>***#codeRecette & #codeProduit***</ins>, quantiteProduit)
 * ConstitutionPanier (<ins>***#codeCommande & #codeRecette***</ins>, quantiteRecette)
 
-# Exécution <a name="exe"></a>
+## Exécution <a name="exe"></a>
 
 Aucun identifiants n'est à entrer dans le code C# pour se connecter à la base de donnée.
 Un utilisateur ayant tous les accès est crée en fin du script MySQL.
