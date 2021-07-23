@@ -1,89 +1,87 @@
-# Application Cooking
+# Cooking App
 
-## Sommaire
+## Contents page
 
-1. [Présentation](#intro)
-2. [Notes techniques](#notes)
+1. [Presentation](#intro)
+2. [Technical notes](#notes)
     1. [Structure](#structure)
     2. [Database](#db)
-3. [Exécution](#exe)
+3. [Execution](#exe)
 
-## Présentation startup Cooking <a name="intro"></a>
+## Presentation of Cooking startup <a name="intro"></a>
 
-**Partie "classique" du concept :**
+A website offering ready-made meals. Customers order these meals through an interface (HMI) then the meals are delivered to the customers by a delivery service.
 
-Un site proposant des plats cuisinés. Les clients commandent ces plats par une interface (IHM), puis les plats sont livrés aux clients par un service de livraison.
+**Innovative part : users interaction**
 
-**Partie "novatrice" : l'échange entre utilisateurs**
+The customers who order the food can also be the cooks who can suggest the recipes and earn credits (the **cook**) that can be used to purchase their meals.
 
-Les clients qui commandent les plats sont aussi les cuisiniers qui peuvent proposer les recettes et gagner des points (les **cook**) avec lesquels ils pourront payer leurs achats de repas.
+Each customer can submit their own recipes, which can then be added to the list of recipes offered by Cooking (**CdR** = recipe creator, *créateur de recette* in French).
 
-Chaque client peut proposer ses recettes qui pourront être intégrées à la liste des recettes proposées par Cooking (**CdR** = créateur de recette).
+### PoC features
 
-### Fonctionnalités du PoC
+1. For the customers :
+* Sign in or create an account
+* Browse the list of recipes
+* Choose one or more meals and pay it
+* Validate the payments with *cook*
+* After submitting an order and payment :
+    * The order counter should increment
+    * The selling price of the recipe increases by 2 *cook* if its number of orders exceeds 10
+    * \+ 5 *cook* if it exceeds 50 and the CdR's remuneration increases up to 4 cook
+    * Product stocks deducted from the quantities used to make the food that was ordered by the customer
 
-1. Pour les clients :
-* S'identifier ou créer un compte
-* Parcourir la liste des recettes proposés
-* Choisir un ou plusieurs plats et le payer
-* Valider le paiements en *cook*
-* Après la saisie d'une commande et son paiement :
-    * Le compteur de commande doit s'incrémenter
-    * Le prix de vente de la recette augmente de 2 *cook* si son nombre de commande dépasse 10
-    * \+ 5 *cook* si elle dépasse 50 & la rémunération du CdR passe à 4 cook.
-    * Stocks de produits décrémentés des quantités utilisées pour réaliser les plats commandés par le client
+2. For the recipe creators (CdR) :
+* Identify themselves as a CdR and access their features, otherwise register
+* Create a recipe
+    * Input the ingredients of the recipe : *name*, list of *ingredients*, *quantity*, *description* and customer *selling price*
+* Check the cook balance
+* Overview of their recipe list and their number of orders
 
-2. Pour les créateurs de recettes (CdR) :
-* S'identifier en tant que CdR et accéder à ses fonctionnalités, sinon s'inscrire
-* Saisire une recette
-    * Saisir les éléments constituant sa recette : *nom*, liste des *ingrédients* avec *quantités*, *description* et *prix de vente* client
-* Consulter son solde de cook
-* Aperçu de sa liste de recettes avec nombre de commandes
+3. For the cooking manager :
+* Dashboard of the week
+    * CdR of the week
+    * Top 5 recipes
+    * CdR and his/her 5 most ordered recipes
+* Weekly replenishment of products
+    * Update of the min and max products quantities : a product that has not been used for the last 30 days will have its min and max quantity divided by 2
+    * Generation of the weekly order list under an XML format : list of products with a quantity lower than the minimum quantity - quantity ordered equal to the maximum quantity - sorted per supplier then per product
+* Delete a recipe
+* Delete a cook and all their recipes (but they remain customers)
 
-3. Pour le gestionnaire de cooking :
-* Tableau de bord de la semaine
-    * CdR de la semaine
-    * Top 5 recettes
-    * CdR ainsi que ses 5 recettes les plus commandés
-* Réaprovisionnement hebdomadaire des produits
-    * Maj des quantités mmin et max des produits : un produit n'ayant pas été utilisé durant les 30 derniers jours verra ses Qte min et max divisés par 2
-    * Edition de la liste des commandes de la semaine au format XML : liste des produits dont la quantité est inférieure à la quantité minimale - quantité commandée égale à la quantité max - classée par fournisseur puis par produit
-* Supprimer une recette
-* Supprimer un cuisinier et toutes ses recettes (mais il reste client)
+## Technical notes <a name="notes"></a>
 
-## Notes techniques <a name="notes"></a>
-
-### Structure de l'application console <a name="structure"></a>
+### Console application structure <a name="structure"></a>
 
 ![Structure](./Rapport_et_complements/Fonctionnement-Cooking.jpg "Structure")
 
 ### Database <a name="db"></a>
 
-#### Diagramme entité-association
+#### Entity-Relationship diagram
 
-![Diagramme EA](./Rapport_et_complements/DiagrammeEA-Cooking.PNG "Diagramme EA")
+![ER Diagram](./Rapport_et_complements/DiagrammeEA-Cooking.PNG "ER Diagram")
 
-#### Schéma relationnel
+#### Relational diagram
 
-**Unicité** / <ins>identifiant</ins> / *#clé étrangère*
+**Unicity** / <ins>identifier</ins> / *#foreign key*
 
-* Fournisseur (<ins>**codeFournisseur**</ins>, nomF, telephoneF)
-* Produit (<ins>**codeProduit**</ins>, nomP, catégorie, stock, stockMax, stockMin, unite, dernieUtilisation)
-* Recette (<ins>**codeRecette**</ins>, nomR, type, descriptif, veg, prixR, remuneration, *#codeClient*, nombreCommandeSemaine, nombreCommande)
-* Panier (<ins>**codeCommande**</ins>, date, prixP, *#codeClient*)
-* Client (<ins>**codeClient**</ins>, nomC, prenomC, telephoneC, **usernameC**, mdpC, createur, cook, nombreCommandeCdR)
-* Fournie (<ins>***#codeFournisseur & #codeProduit***</ins>)
-* ConstitutionRecette (<ins>***#codeRecette & #codeProduit***</ins>, quantiteProduit)
-* ConstitutionPanier (<ins>***#codeCommande & #codeRecette***</ins>, quantiteRecette)
+* Supplier (<ins>**codeSupplier**</ins>, nameF, phoneF)
+* Product (<ins>**codeProduct**</ins>, nameP, category, stock, stockMax, stockMin, unit, lastUse)
+* Recipe (<ins>**codeRecipe**</ins>, nameR, type, description, veg, priceR, remuneration, *#codeClient*, numberOrderWeekly, numberOrder)
+* Basket (<ins>**codeOrder**</ins>, date, priceP, *#codeClient*)
+* Client (<ins>**codeClient**</ins>, lastnameC, firstnameC, phoneC, **usernameC**, passwordC, creator, cook, numberOrderCdR)
+* Supply (<ins>***#codeSupplier & #codeProduct***</ins>)
+* RecipeConstitution (<ins>***#codeRecipe & #codeProduct***</ins>, quantityProduct)
+* BasketConstitution (<ins>***#codeOrder & #codeRecipe***</ins>, quantityRecipe)
 
-## Exécution <a name="exe"></a>
+## Execution <a name="exe"></a>
 
-Aucun identifiants n'est à entrer dans le code C# pour se connecter à la base de donnée.
-Un utilisateur ayant tous les accès est crée en fin du script MySQL.
-Ce sont les identifiants de cet utilisateur qui sont utilisés pour se connecter.
+No need to enter any credentials in the C# code in order to access the database.
+A user with all rights is created at the end of the MySQL script.
+The credentials of this user are used to log in.
 
-Les deux premières lignes du script MySQL servent à drop la database et supprimer l'utilisateur crée
+The first two lines of the MySQL script are for dropping the database and deleting all created users.
 
-Voici deux identifiants pour se connecter en tant que client au moment de l'exécution :
-* id : Senku | mdp : keurScience (--> ce client est un CdR)
-* id : Rick  | mdp : WeAreTheWD  (--> ce client est non CdR)
+Here are two credentials to use to login as a client, anyone can create his own :
+* id : Senku | password : keurScience (--> this client is a CdR)
+* id : Rick  | password : WeAreTheWD  (--> this client is not a CdR)
